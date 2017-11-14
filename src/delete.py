@@ -16,4 +16,14 @@ def prompt(code):
     
     return[codeReturn[0],nameReturn[0],quantityReturn[0]]#details for notification purposes
 
+def deleteItem(code):
+    """function that actually deletes item from all tables using item code"""
+    connect = db.connect('SCM_DATABASE.db')
+    connect.row_factory = lambda cursor, row: row[0]
+    database = connect.cursor()
+
+    #deletes from stock and sales table
+    delete1 = database.execute("DELETE FROM stock WHERE code =?",(code,))
+    delete2 = database.execute("DELETE FROM sales WHERE code =?",(code,))
+    connect.commit()
 
